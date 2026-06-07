@@ -1,0 +1,36 @@
+<aside [ngClass]="['w-60 flex flex-col border-r shadow-sm h-full', 
+    (themeService.darkMode$ | async) ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200']">
+  <div class="p-4 border-b border-slate-200">
+    <h2 [ngClass]="['text-lg font-bold', (themeService.darkMode$ | async) ? 'text-white' : 'text-slate-900']">ZENJADE CRM</h2>
+    <p [ngClass]="['text-xs', (themeService.darkMode$ | async) ? 'text-slate-400' : 'text-slate-500']">PRO</p>
+  </div>
+
+  <nav class="flex-1 p-3 space-y-1 overflow-auto">
+    <a *ngFor="let item of navItems"
+       [routerLink]="item.path"
+       routerLinkActive="bg-blue-600 text-white"
+       [routerLinkActiveOptions]="{exact: false}"
+       #rla="routerLinkActive"
+       [ngClass]="['flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition', 
+        !rla.isActive ? ((themeService.darkMode$ | async) ? 'text-slate-300 hover:bg-slate-700' : 'text-slate-600 hover:bg-slate-100') : '']">
+      <lucide-icon [img]="item.icon" [size]="18"></lucide-icon>
+      {{ item.label }}
+    </a>
+  </nav>
+
+  <div class="p-3 space-y-1 border-t border-slate-200">
+    <button
+      (click)="themeService.toggleDarkMode()"
+      [ngClass]="['flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm', 
+        (themeService.darkMode$ | async) ? 'text-yellow-400 hover:bg-slate-700' : 'text-slate-600 hover:bg-slate-100']">
+      <lucide-icon [img]="(themeService.darkMode$ | async) ? Sun : Moon" [size]="18"></lucide-icon>
+      {{ (themeService.darkMode$ | async) ? 'Light Mode' : 'Dark Mode' }}
+    </button>
+    <button
+      (click)="handleLogout()"
+      class="flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm text-red-500 hover:bg-red-50">
+      <lucide-icon [img]="LogOut" [size]="18"></lucide-icon>
+      Logout
+    </button>
+  </div>
+</aside>

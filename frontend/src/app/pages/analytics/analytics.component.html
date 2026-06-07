@@ -1,0 +1,29 @@
+<div>
+  <h1 [ngClass]="['text-2xl font-bold mb-6', (themeService.darkMode$ | async) ? 'text-white' : 'text-slate-800']">Analytics</h1>
+  
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Revenue Trend -->
+    <div [ngClass]="['p-5 rounded-lg shadow h-[300px] flex flex-col', (themeService.darkMode$ | async) ? 'bg-slate-800 text-white' : 'bg-white text-slate-800']">
+      <h2 class="font-semibold mb-4">Revenue Trend</h2>
+      <div class="flex-1 flex items-end gap-2 justify-between">
+        <div *ngFor="let item of revenue" class="flex flex-col items-center flex-1">
+          <div class="w-full bg-blue-500 rounded-t" 
+               [style.height]="(item.revenue / getMaxRevenue() * 180) + 'px'"></div>
+          <span class="text-xs mt-2">{{ item.month }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lead Pipeline -->
+    <div [ngClass]="['p-5 rounded-lg shadow h-[300px] flex flex-col', (themeService.darkMode$ | async) ? 'bg-slate-800 text-white' : 'bg-white text-slate-800']">
+      <h2 class="font-semibold mb-4">Lead Pipeline</h2>
+      <div class="flex-1 flex items-end gap-2 justify-between">
+        <div *ngFor="let item of leads" class="flex flex-col items-center flex-1">
+          <div class="w-full bg-indigo-500 rounded-t" 
+               [style.height]="(item.count / getMaxLeads() * 180) + 'px'"></div>
+          <span class="text-xs mt-2 truncate max-w-full" [title]="item.stage">{{ item.stage }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

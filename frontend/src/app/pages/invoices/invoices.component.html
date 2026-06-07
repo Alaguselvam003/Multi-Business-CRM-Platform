@@ -1,0 +1,52 @@
+<div>
+  <div class="flex justify-between items-center mb-6">
+    <h1 [ngClass]="['text-2xl font-bold', (themeService.darkMode$ | async) ? 'text-white' : 'text-slate-800']">Invoices</h1>
+    <button (click)="showForm = true" class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+      <lucide-icon [img]="Plus" [size]="16"></lucide-icon> New Invoice
+    </button>
+  </div>
+
+  <form *ngIf="showForm" (ngSubmit)="save()" [ngClass]="['p-4 rounded-lg shadow mb-6 grid grid-cols-2 gap-3', (themeService.darkMode$ | async) ? 'bg-slate-800 text-white' : 'bg-white text-slate-800']">
+    <input placeholder="Invoice #" [(ngModel)]="form.invoice_number" name="invoice_number" required
+      [ngClass]="['px-3 py-2 border rounded-lg', (themeService.darkMode$ | async) ? 'bg-slate-700 border-slate-600 text-white' : 'border-slate-300']" />
+    <input placeholder="Amount" type="number" [(ngModel)]="form.amount" name="amount" required
+      [ngClass]="['px-3 py-2 border rounded-lg', (themeService.darkMode$ | async) ? 'bg-slate-700 border-slate-600 text-white' : 'border-slate-300']" />
+    <input placeholder="Tax" type="number" [(ngModel)]="form.tax" name="tax"
+      [ngClass]="['px-3 py-2 border rounded-lg', (themeService.darkMode$ | async) ? 'bg-slate-700 border-slate-600 text-white' : 'border-slate-300']" />
+    <input type="date" [(ngModel)]="form.due_date" name="due_date"
+      [ngClass]="['px-3 py-2 border rounded-lg', (themeService.darkMode$ | async) ? 'bg-slate-700 border-slate-600 text-white' : 'border-slate-300']" />
+    
+    <select [(ngModel)]="form.status" name="status"
+      [ngClass]="['px-3 py-2 border rounded-lg', (themeService.darkMode$ | async) ? 'bg-slate-700 border-slate-600 text-white' : 'border-slate-300']">
+      <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+    </select>
+
+    <div class="col-span-2 flex gap-2">
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg">Save</button>
+      <button type="button" (click)="showForm = false" class="px-4 py-2 rounded-lg border">Cancel</button>
+    </div>
+  </form>
+
+  <div [ngClass]="['rounded-lg shadow overflow-hidden', (themeService.darkMode$ | async) ? 'bg-slate-800 text-white' : 'bg-white text-slate-800']">
+    <table class="w-full text-sm">
+      <thead [ngClass]="(themeService.darkMode$ | async) ? 'bg-slate-700' : 'bg-slate-50'">
+        <tr>
+          <th class="px-4 py-3 text-left font-medium">Invoice #</th>
+          <th class="px-4 py-3 text-left font-medium">Amount</th>
+          <th class="px-4 py-3 text-left font-medium">Tax</th>
+          <th class="px-4 py-3 text-left font-medium">Due Date</th>
+          <th class="px-4 py-3 text-left font-medium">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let inv of invoices" [ngClass]="['border-t', (themeService.darkMode$ | async) ? 'border-slate-700' : 'border-slate-100']">
+          <td class="px-4 py-3 font-medium">{{ inv.invoice_number }}</td>
+          <td class="px-4 py-3">₹{{ inv.amount }}</td>
+          <td class="px-4 py-3">₹{{ inv.tax || 0 }}</td>
+          <td class="px-4 py-3">{{ inv.due_date }}</td>
+          <td class="px-4 py-3"><span [ngClass]="['px-2 py-1 rounded text-xs', statusColor(inv.status)]">{{ inv.status }}</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

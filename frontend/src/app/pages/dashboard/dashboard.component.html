@@ -1,0 +1,25 @@
+<div>
+  <h1 [ngClass]="['text-2xl font-bold mb-6', (themeService.darkMode$ | async) ? 'text-white' : 'text-slate-800']">Dashboard</h1>
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <!-- Customers -->
+    <div [ngClass]="['p-5 rounded-lg shadow', (themeService.darkMode$ | async) ? 'bg-slate-800' : 'bg-white']">
+      <p [ngClass]="['text-sm', (themeService.darkMode$ | async) ? 'text-slate-400' : 'text-slate-500']">Total Customers</p>
+      <p [ngClass]="['text-3xl font-bold mt-1', (themeService.darkMode$ | async) ? 'text-white' : 'text-slate-800']">{{ stats.customers }}</p>
+    </div>
+    <!-- Leads -->
+    <div [ngClass]="['p-5 rounded-lg shadow', (themeService.darkMode$ | async) ? 'bg-slate-800' : 'bg-white']">
+      <p [ngClass]="['text-sm', (themeService.darkMode$ | async) ? 'text-slate-400' : 'text-slate-500']">Active Leads</p>
+      <p [ngClass]="['text-3xl font-bold mt-1', (themeService.darkMode$ | async) ? 'text-white' : 'text-slate-800']">{{ stats.leads }}</p>
+    </div>
+    <!-- Revenue -->
+    <div [ngClass]="['p-5 rounded-lg shadow', (themeService.darkMode$ | async) ? 'bg-slate-800' : 'bg-white']">
+      <p [ngClass]="['text-sm', (themeService.darkMode$ | async) ? 'text-slate-400' : 'text-slate-500']">Revenue (Month)</p>
+      <p [ngClass]="['text-3xl font-bold mt-1', (themeService.darkMode$ | async) ? 'text-white' : 'text-slate-800']">{{ stats.revenue }}</p>
+    </div>
+    <!-- Tasks -->
+    <div [ngClass]="['p-5 rounded-lg shadow', (themeService.darkMode$ | async) ? 'bg-slate-800' : 'bg-white']">
+      <p [ngClass]="['text-sm', (themeService.darkMode$ | async) ? 'text-slate-400' : 'text-slate-500']">Pending Tasks</p>
+      <p [ngClass]="['text-3xl font-bold mt-1', (themeService.darkMode$ | async) ? 'text-white' : 'text-slate-800']">{{ stats.tasks }}</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+<div>
+  <div class="flex justify-between items-center mb-6">
+    <h1 [ngClass]="['text-2xl font-bold', (themeService.darkMode$ | async) ? 'text-white' : 'text-slate-800']">Employees</h1>
+    <button (click)="showForm = true" class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+      <lucide-icon [img]="Plus" [size]="16"></lucide-icon> Add Employee
+    </button>
+  </div>
+
+  <form *ngIf="showForm" (ngSubmit)="save()" [ngClass]="['p-4 rounded-lg shadow mb-6 grid grid-cols-2 gap-3', (themeService.darkMode$ | async) ? 'bg-slate-800 text-white' : 'bg-white text-slate-800']">
+    <input placeholder="Name" [(ngModel)]="form.name" name="name" required
+      [ngClass]="['px-3 py-2 border rounded-lg', (themeService.darkMode$ | async) ? 'bg-slate-700 border-slate-600 text-white' : 'border-slate-300']" />
+    <input placeholder="Email" [(ngModel)]="form.email" name="email"
+      [ngClass]="['px-3 py-2 border rounded-lg', (themeService.darkMode$ | async) ? 'bg-slate-700 border-slate-600 text-white' : 'border-slate-300']" />
+    <input placeholder="Designation" [(ngModel)]="form.designation" name="designation"
+      [ngClass]="['px-3 py-2 border rounded-lg', (themeService.darkMode$ | async) ? 'bg-slate-700 border-slate-600 text-white' : 'border-slate-300']" />
+    <input placeholder="Department" [(ngModel)]="form.department" name="department"
+      [ngClass]="['px-3 py-2 border rounded-lg', (themeService.darkMode$ | async) ? 'bg-slate-700 border-slate-600 text-white' : 'border-slate-300']" />
+    
+    <input type="date" [(ngModel)]="form.join_date" name="join_date"
+      [ngClass]="['px-3 py-2 border rounded-lg', (themeService.darkMode$ | async) ? 'bg-slate-700 border-slate-600 text-white' : 'border-slate-300']" />
+
+    <div class="col-span-2 flex gap-2">
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg">Save</button>
+      <button type="button" (click)="showForm = false" class="px-4 py-2 rounded-lg border">Cancel</button>
+    </div>
+  </form>
+
+  <div [ngClass]="['rounded-lg shadow overflow-hidden', (themeService.darkMode$ | async) ? 'bg-slate-800 text-white' : 'bg-white text-slate-800']">
+    <table class="w-full text-sm">
+      <thead [ngClass]="(themeService.darkMode$ | async) ? 'bg-slate-700' : 'bg-slate-50'">
+        <tr>
+          <th class="px-4 py-3 text-left font-medium">Name</th>
+          <th class="px-4 py-3 text-left font-medium">Email</th>
+          <th class="px-4 py-3 text-left font-medium">Designation</th>
+          <th class="px-4 py-3 text-left font-medium">Department</th>
+          <th class="px-4 py-3 text-left font-medium">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let e of employees" [ngClass]="['border-t', (themeService.darkMode$ | async) ? 'border-slate-700' : 'border-slate-100']">
+          <td class="px-4 py-3 font-medium">{{ e.name }}</td>
+          <td class="px-4 py-3">{{ e.email }}</td>
+          <td class="px-4 py-3">{{ e.designation }}</td>
+          <td class="px-4 py-3">{{ e.department }}</td>
+          <td class="px-4 py-3"><span class="px-2 py-1 bg-green-100 text-green-700 rounded text-xs">{{ e.status }}</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

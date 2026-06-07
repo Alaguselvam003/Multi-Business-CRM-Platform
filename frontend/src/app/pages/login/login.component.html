@@ -1,0 +1,48 @@
+<div [ngClass]="['min-h-screen flex items-center justify-center', darkMode ? 'bg-slate-900' : 'bg-gradient-to-br from-blue-50 to-indigo-100']">
+  <div [ngClass]="['p-8 rounded-lg shadow-2xl w-96', darkMode ? 'bg-slate-800' : 'bg-white']">
+    <h1 [ngClass]="['text-3xl font-bold text-center mb-2', darkMode ? 'text-white' : 'text-slate-900']">
+      ZENJADE CRM PRO
+    </h1>
+    <p [ngClass]="['text-center mb-8', darkMode ? 'text-slate-400' : 'text-slate-600']">
+      Multi-Business CRM Platform
+    </p>
+
+    <div *ngIf="error" class="bg-red-100 text-red-700 p-3 rounded mb-4 text-sm">
+      {{ error }}
+    </div>
+
+    <form (ngSubmit)="handleLogin()" class="space-y-4">
+      <input
+        type="email"
+        placeholder="Email"
+        [(ngModel)]="email"
+        name="email"
+        [ngClass]="['w-full px-4 py-2 border rounded-lg', darkMode ? 'bg-slate-700 border-slate-600 text-white' : 'bg-white border-slate-300']"
+        required
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        [(ngModel)]="password"
+        name="password"
+        [ngClass]="['w-full px-4 py-2 border rounded-lg', darkMode ? 'bg-slate-700 border-slate-600 text-white' : 'bg-white border-slate-300']"
+        required
+      />
+      <button
+        type="submit"
+        [disabled]="loading"
+        class="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition disabled:opacity-50"
+      >
+        {{ loading ? 'Logging in...' : 'Login' }}
+      </button>
+    </form>
+
+    <button
+      (click)="toggleDarkMode()"
+      [ngClass]="['mt-6 w-full py-2 rounded-lg flex items-center justify-center gap-2', darkMode ? 'bg-slate-700 text-yellow-400' : 'bg-slate-100 text-slate-700']"
+    >
+      <lucide-icon [img]="darkMode ? Sun : Moon" [size]="18"></lucide-icon>
+      {{ darkMode ? 'Light Mode' : 'Dark Mode' }}
+    </button>
+  </div>
+</div>

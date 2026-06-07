@@ -1,0 +1,29 @@
+<div>
+  <h1 [ngClass]="['text-2xl font-bold mb-6', (themeService.darkMode$ | async) ? 'text-white' : 'text-slate-800']">Settings</h1>
+  
+  <div [ngClass]="['p-6 rounded-lg shadow max-w-lg', (themeService.darkMode$ | async) ? 'bg-slate-800 text-white' : 'bg-white text-slate-800']">
+    <h2 class="font-semibold mb-4">Profile Settings</h2>
+    
+    <form (ngSubmit)="save()" class="space-y-4">
+      <div>
+        <label [ngClass]="['text-sm', (themeService.darkMode$ | async) ? 'text-slate-400' : 'text-slate-500']">Name</label>
+        <input [(ngModel)]="name" name="name"
+          [ngClass]="['w-full mt-1 px-3 py-2 border rounded-lg', (themeService.darkMode$ | async) ? 'bg-slate-700 border-slate-600 text-white' : 'border-slate-300']" />
+      </div>
+      <div>
+        <label [ngClass]="['text-sm', (themeService.darkMode$ | async) ? 'text-slate-400' : 'text-slate-500']">Email</label>
+        <input [value]="user.email || ''" disabled
+          [ngClass]="['w-full mt-1 px-3 py-2 border rounded-lg opacity-60', (themeService.darkMode$ | async) ? 'bg-slate-700 border-slate-600 text-white' : 'border-slate-300']" />
+      </div>
+      <div>
+        <label [ngClass]="['text-sm', (themeService.darkMode$ | async) ? 'text-slate-400' : 'text-slate-500']">Role</label>
+        <input [value]="user.role || ''" disabled
+          [ngClass]="['w-full mt-1 px-3 py-2 border rounded-lg opacity-60', (themeService.darkMode$ | async) ? 'bg-slate-700 border-slate-600 text-white' : 'border-slate-300']" />
+      </div>
+      
+      <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+        {{ saved ? 'Saved!' : 'Save Changes' }}
+      </button>
+    </form>
+  </div>
+</div>

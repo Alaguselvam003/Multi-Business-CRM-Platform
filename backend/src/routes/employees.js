@@ -6,7 +6,7 @@ let employees = [
   { id: 2, name: 'Sunita Patel', email: 'sunita@zenjade.com', designation: 'Support Lead', department: 'Support', status: 'active', join_date: '2023-03-01' },
 ];
 
-router.get('/', (req, res) => res.json(employees));
+router.get('/', (req, res) => res.json({ data: employees }));
 router.post('/', (req, res) => {
   const e = { id: Date.now(), ...req.body };
   employees.push(e);

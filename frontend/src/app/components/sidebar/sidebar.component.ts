@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { 
@@ -15,19 +15,8 @@ import { ThemeService } from '../../services/theme.service';
   imports: [CommonModule, RouterLink, RouterLinkActive, LucideAngularModule],
   templateUrl: './sidebar.component.html'
 })
-export class SidebarComponent {
-  navItems = [
-    { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { path: '/customers', label: 'Customers', icon: Users },
-    { path: '/leads', label: 'Leads', icon: TrendingUp },
-    { path: '/tasks', label: 'Tasks', icon: CheckSquare },
-    { path: '/invoices', label: 'Invoices', icon: FileText },
-    { path: '/employees', label: 'Employees', icon: UserCheck },
-    { path: '/projects', label: 'Projects', icon: FolderOpen },
-    { path: '/analytics', label: 'Analytics', icon: BarChart2 },
-    { path: '/support', label: 'Support', icon: Headphones },
-    { path: '/settings', label: 'Settings', icon: Settings }
-  ];
+export class SidebarComponent implements OnInit {
+  navItems: any[] = [];
 
   readonly LogOut = LogOut;
   readonly Sun = Sun;
@@ -38,6 +27,24 @@ export class SidebarComponent {
     private router: Router,
     public themeService: ThemeService
   ) {}
+
+  ngOnInit() {
+    const role = this.authService.getUserRole();
+    const isAdmin = role === 'Super Admin' || role === 'Company Admin';
+
+    this.navItems = [
+      { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, show: true },
+      { path: '/customers', label: 'Customers', icon: Users, show: isAdmin || role === 'Sales Executive' || role === 'Manager' || role === 'Viewer' },
+      { path: '/leads', label: 'Leads', icon: TrendingUp, show: isAdmin || role === 'Sales Executive' || role === 'Manager' || role === 'Viewer' },
+      { path: '/tasks', label: 'Tasks', icon: CheckSquare, show: isAdmin || role === 'Employee' || role === 'Manager' || role === 'Viewer' },
+      { path: '/invoices', label: 'Invoices', icon: FileText, show: isAdmin || role === 'Manager' },
+      { path: '/employees', label: 'Employees', icon: UserCheck, show: isAdmin || role === 'HR' },
+      { path: '/projects', label: 'Projects', icon: FolderOpen, show: isAdmin || role === 'Manager' },
+      { path: '/analytics', label: 'Analytics', icon: BarChart2, show: isAdmin },
+      { path: '/support', label: 'Support', icon: Headphones, show: isAdmin || role === 'Support Executive' },
+      { path: '/settings', label: 'Settings', icon: Settings, show: true }
+    ].filter(item => item.show);
+  }
 
   handleLogout() {
     this.authService.logout();

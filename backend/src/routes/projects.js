@@ -6,7 +6,7 @@ let projects = [
   { id: 2, name: 'Website Redesign', description: 'Full website overhaul', status: 'planning', progress: 10, start_date: '2025-07-15', end_date: '2025-09-30' },
 ];
 
-router.get('/', (req, res) => res.json(projects));
+router.get('/', (req, res) => res.json({ data: projects }));
 router.post('/', (req, res) => {
   const p = { id: Date.now(), ...req.body };
   projects.push(p);

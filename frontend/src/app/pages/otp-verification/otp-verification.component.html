@@ -1,0 +1,55 @@
+<div [ngClass]="['min-h-screen flex items-center justify-center', darkMode ? 'bg-slate-900' : 'bg-gradient-to-br from-blue-50 to-indigo-100']">
+  <div [ngClass]="['p-8 rounded-lg shadow-2xl w-[28rem]', darkMode ? 'bg-slate-800' : 'bg-white']">
+    <h1 [ngClass]="['text-3xl font-bold text-center mb-2', darkMode ? 'text-white' : 'text-slate-900']">
+      Verify Account
+    </h1>
+    <p [ngClass]="['text-center mb-6 text-sm', darkMode ? 'text-slate-400' : 'text-slate-600']">
+      Secure your account with {{ otpType === 'email' ? 'Email' : 'SMS' }} Verification
+    </p>
+
+    <div *ngIf="error" class="bg-red-100 text-red-700 p-3 rounded mb-4 text-sm">
+      {{ error }}
+    </div>
+    <div *ngIf="success" class="bg-green-100 text-green-700 p-3 rounded mb-4 text-sm">
+      {{ success }}
+    </div>
+
+    <div>
+      <div class="mb-4">
+        <label class="block text-sm font-medium mb-1" [ngClass]="darkMode ? 'text-slate-300' : 'text-slate-700'">Verification Method</label>
+        <select [(ngModel)]="otpType" class="w-full px-4 py-2 border rounded-lg" [ngClass]="darkMode ? 'bg-slate-700 border-slate-600 text-white' : 'bg-white border-slate-300'">
+          <option value="email">Email Verification</option>
+          <option value="sms">Mobile SMS OTP</option>
+        </select>
+      </div>
+
+      <div class="mb-6">
+        <label class="block text-sm font-medium mb-1" [ngClass]="darkMode ? 'text-slate-300' : 'text-slate-700'">Account Email</label>
+        <div class="flex gap-2">
+          <input type="email" [(ngModel)]="email" [ngClass]="['flex-1 px-4 py-2 border rounded-lg', darkMode ? 'bg-slate-700 border-slate-600 text-white' : 'bg-white border-slate-300']" disabled />
+          <button (click)="sendOtp()" [disabled]="loading || !email" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition disabled:opacity-50 whitespace-nowrap">
+            {{ loading ? 'Sending...' : 'Send OTP' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8 pt-6 border-t border-gray-200" [ngClass]="{'border-slate-700': darkMode}">
+      <div class="mb-6">
+        <label class="block text-sm font-medium mb-1" [ngClass]="darkMode ? 'text-slate-300' : 'text-slate-700'">Enter 6-digit OTP Code</label>
+        <input type="text" [(ngModel)]="code" placeholder="123456" maxlength="6"
+          class="text-center text-2xl tracking-[0.5em] font-mono"
+          [ngClass]="['w-full px-4 py-3 border rounded-lg', darkMode ? 'bg-slate-700 border-slate-600 text-white' : 'bg-white border-slate-300']" />
+      </div>
+
+      <button (click)="verifyOtp()" [disabled]="loading || code.length !== 6"
+        class="w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition disabled:opacity-50">
+        {{ loading ? 'Verifying...' : 'Verify & Continue' }}
+      </button>
+    </div>
+    
+    <p class="mt-6 text-center text-sm" [ngClass]="darkMode ? 'text-slate-400' : 'text-slate-600'">
+      <a href="javascript:void(0)" (click)="goToLogin()" class="text-blue-600 font-medium hover:underline">Back to Login</a>
+    </p>
+  </div>
+</div>

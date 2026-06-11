@@ -6,7 +6,7 @@ let tasks = [
   { id: 2, title: 'Send proposal to MegaCorp', description: '', status: 'in-progress', priority: 'medium', due_date: '2025-07-28' },
 ];
 
-router.get('/', (req, res) => res.json(tasks));
+router.get('/', (req, res) => res.json({ data: tasks }));
 router.post('/', (req, res) => {
   const t = { id: Date.now(), ...req.body };
   tasks.push(t);

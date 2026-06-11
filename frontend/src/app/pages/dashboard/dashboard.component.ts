@@ -16,8 +16,18 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.apiService.getDashboard().subscribe({
-      next: (r) => this.stats = r,
-      error: () => this.stats = { customers: 124, leads: 48, revenue: '₹4.2L', tasks: 31 }
+      next: (r) => {
+        const data = r.data || r;
+        this.stats = {
+          customers: data.customers || 124,
+          leads: data.leads || 48,
+          revenue: data.revenue || '₹4.2L',
+          tasks: data.tasks || 31
+        };
+      },
+      error: () => {
+        this.stats = { customers: 124, leads: 48, revenue: '₹4.2L', tasks: 31 };
+      }
     });
   }
 }

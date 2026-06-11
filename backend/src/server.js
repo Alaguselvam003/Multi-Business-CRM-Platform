@@ -4,6 +4,8 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 require('dotenv').config();
 
+const { authMiddleware } = require('./middleware/auth');
+
 const app = express();
 
 app.use(helmet());
@@ -13,14 +15,14 @@ app.use(express.json());
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 app.use('/api/auth', require('./routes/auth'));
-app.use('/api/customers', require('./routes/customers'));
-app.use('/api/leads', require('./routes/leads'));
-app.use('/api/tasks', require('./routes/tasks'));
-app.use('/api/invoices', require('./routes/invoices'));
-app.use('/api/employees', require('./routes/employees'));
-app.use('/api/projects', require('./routes/projects'));
-app.use('/api/analytics', require('./routes/analytics'));
-app.use('/api/tickets', require('./routes/tickets'));
+app.use('/api/customers', authMiddleware, require('./routes/customers'));
+app.use('/api/leads', authMiddleware, require('./routes/leads'));
+app.use('/api/tasks', authMiddleware, require('./routes/tasks'));
+app.use('/api/invoices', authMiddleware, require('./routes/invoices'));
+app.use('/api/employees', authMiddleware, require('./routes/employees'));
+app.use('/api/projects', authMiddleware, require('./routes/projects'));
+app.use('/api/analytics', authMiddleware, require('./routes/analytics'));
+app.use('/api/tickets', authMiddleware, require('./routes/tickets'));
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

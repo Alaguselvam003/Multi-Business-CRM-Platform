@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { OtpVerificationComponent } from './pages/otp-verification/otp-verification.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { CustomersComponent } from './pages/customers/customers.component';
@@ -15,6 +17,8 @@ import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'otp-verification', component: OtpVerificationComponent },
   { 
     path: '', 
     component: MainLayoutComponent,

@@ -6,7 +6,7 @@ let invoices = [
   { id: 2, invoice_number: 'INV-002', amount: 120000, tax: 21600, status: 'sent', due_date: '2025-08-01' },
 ];
 
-router.get('/', (req, res) => res.json(invoices));
+router.get('/', (req, res) => res.json({ data: invoices }));
 router.post('/', (req, res) => {
   const inv = { id: Date.now(), ...req.body };
   invoices.push(inv);

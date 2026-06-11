@@ -6,7 +6,7 @@ let leads = [
   { id: 2, name: 'Priya Sharma', company: 'MegaCorp', email: 'priya@mega.com', phone: '+91-9000000002', status: 'contacted', priority: 'medium', value: 120000 },
 ];
 
-router.get('/', (req, res) => res.json(leads));
+router.get('/', (req, res) => res.json({ data: leads }));
 router.get('/:id', (req, res) => {
   const l = leads.find(l => l.id === parseInt(req.params.id));
   l ? res.json(l) : res.status(404).json({ message: 'Not found' });

@@ -6,7 +6,7 @@ let tickets = [
   { id: 2, title: 'Invoice not generated', description: 'PDF not downloading', status: 'in-progress', priority: 'medium' },
 ];
 
-router.get('/', (req, res) => res.json(tickets));
+router.get('/', (req, res) => res.json({ data: tickets }));
 router.post('/', (req, res) => {
   const t = { id: Date.now(), status: 'open', ...req.body };
   tickets.push(t);

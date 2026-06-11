@@ -16,6 +16,7 @@ export class LoginComponent {
   darkMode = false;
   email = 'demo@zenjade.com';
   password = 'demo123';
+  rememberMe = false;
   loading = false;
   error = '';
   
@@ -37,7 +38,7 @@ export class LoginComponent {
     this.loading = true;
     this.error = '';
     
-    this.apiService.login(this.email, this.password).subscribe({
+    this.apiService.login({ email: this.email, password: this.password, rememberMe: this.rememberMe }).subscribe({
       next: (response) => {
         this.authService.setToken(response.token);
         this.authService.setUserInfo(response.user);
@@ -49,5 +50,9 @@ export class LoginComponent {
         this.loading = false;
       }
     });
+  }
+
+  goToRegister() {
+    this.router.navigate(['/register']);
   }
 }

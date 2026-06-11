@@ -28,6 +28,13 @@
         [ngClass]="['w-full px-4 py-2 border rounded-lg', darkMode ? 'bg-slate-700 border-slate-600 text-white' : 'bg-white border-slate-300']"
         required
       />
+      <div class="flex items-center justify-between">
+        <label class="flex items-center text-sm" [ngClass]="darkMode ? 'text-slate-400' : 'text-slate-600'">
+          <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe" class="mr-2 rounded border-gray-300">
+          Remember me
+        </label>
+        <a href="javascript:void(0)" class="text-sm text-blue-600 hover:underline">Forgot password?</a>
+      </div>
       <button
         type="submit"
         [disabled]="loading"
@@ -44,5 +51,10 @@
       <lucide-icon [img]="darkMode ? Sun : Moon" [size]="18"></lucide-icon>
       {{ darkMode ? 'Light Mode' : 'Dark Mode' }}
     </button>
+    
+    <p class="mt-6 text-center text-sm" [ngClass]="darkMode ? 'text-slate-400' : 'text-slate-600'">
+      Don't have an account? 
+      <a href="javascript:void(0)" (click)="goToRegister()" class="text-blue-600 font-medium hover:underline">Register</a>
+    </p>
   </div>
 </div>

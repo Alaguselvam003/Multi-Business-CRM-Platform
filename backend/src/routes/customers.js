@@ -6,7 +6,7 @@ let customers = [
   { id: 2, name: 'Tech Solutions', email: 'contact@techsol.com', phone: '+91-9876543211', status: 'Active' },
 ];
 
-router.get('/', (req, res) => res.json(customers));
+router.get('/', (req, res) => res.json({ data: customers }));
 router.get('/:id', (req, res) => {
   const c = customers.find(c => c.id === parseInt(req.params.id));
   c ? res.json(c) : res.status(404).json({ message: 'Not found' });

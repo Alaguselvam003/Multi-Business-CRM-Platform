@@ -12,12 +12,28 @@ export class ApiService {
   constructor(private http: HttpClient) {}
 
   // Auth
-  login(email: string, password: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/auth/login`, { email, password });
+  login(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/auth/login`, data);
   }
 
-  register(data: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/auth/register`, data);
+  registerCompany(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/auth/register-company`, data);
+  }
+
+  registerEmployee(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/auth/register-employee`, data);
+  }
+
+  sendOtp(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/auth/send-otp`, data);
+  }
+
+  verifyOtp(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/auth/verify-otp`, data);
+  }
+
+  getSessions(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/auth/sessions`);
   }
 
   logout(): Observable<any> {

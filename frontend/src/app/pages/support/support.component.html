@@ -23,7 +23,23 @@
     </div>
   </form>
 
-  <div class="space-y-3">
+  
+  <!-- Loading Indicator -->
+  <div *ngIf="isLoading" class="p-8 text-center text-blue-500 font-medium">
+    Loading...
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage && !isLoading" class="p-8 text-center text-red-500">
+    {{ errorMessage }}
+  </div>
+
+  <!-- No Data Message -->
+  <div *ngIf="!isLoading && !errorMessage && tickets.length === 0" class="p-8 text-center text-slate-500">
+    No data found.
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage && tickets.length > 0" class="space-y-3">
     <div *ngFor="let t of tickets" [ngClass]="['p-4 rounded-lg shadow flex justify-between items-center', (themeService.darkMode$ | async) ? 'bg-slate-800 text-white' : 'bg-white text-slate-800']">
       <div>
         <p class="font-medium">{{ t.title }}</p>

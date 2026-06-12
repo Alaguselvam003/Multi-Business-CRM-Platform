@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
@@ -12,6 +12,8 @@ import { LucideAngularModule, Plus, Trash2 } from 'lucide-angular';
   templateUrl: './leads.component.html'
 })
 export class LeadsComponent implements OnInit {
+  isLoading = false;
+  errorMessage = '';
   leads: any[] = [];
   form: any = { name: '', company: '', email: '', phone: '', status: 'new', priority: 'medium', value: '' };
   showForm = false;
@@ -20,16 +22,28 @@ export class LeadsComponent implements OnInit {
   readonly Plus = Plus;
   readonly Trash2 = Trash2;
 
-  constructor(private apiService: ApiService, public themeService: ThemeService) {}
+  constructor(private apiService: ApiService, public themeService: ThemeService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.load();
   }
 
   load() {
-    this.apiService.getLeads().subscribe({
-      next: (r) => this.leads = r.data || [],
-      error: () => {}
+    this.isLoading = true;
+    this.errorMessage = '';
+    this.cdr.detectChanges();
+
+    this.apiService.getLeads()?.subscribe({
+      next: (r) => {
+        this.leads = r.data || [];
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.errorMessage = 'Failed to load data.';
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 

@@ -1,6 +1,15 @@
 <div>
   <h1 [ngClass]="['text-2xl font-bold mb-6', (themeService.darkMode$ | async) ? 'text-white' : 'text-slate-800']">Dashboard</h1>
-  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+  
+  <div *ngIf="isLoading" class="p-8 text-center text-blue-500 font-medium">
+    Loading...
+  </div>
+
+  <div *ngIf="errorMessage && !isLoading" class="p-8 text-center text-red-500">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage" class="grid grid-cols-2 lg:grid-cols-4 gap-4">
     <!-- Customers -->
     <div [ngClass]="['p-5 rounded-lg shadow', (themeService.darkMode$ | async) ? 'bg-slate-800' : 'bg-white']">
       <p [ngClass]="['text-sm', (themeService.darkMode$ | async) ? 'text-slate-400' : 'text-slate-500']">Total Customers</p>

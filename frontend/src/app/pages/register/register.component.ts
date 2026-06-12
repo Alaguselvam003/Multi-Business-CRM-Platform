@@ -45,7 +45,7 @@ export class RegisterComponent {
         },
         error: (err) => {
           if (err.error?.errors && err.error.errors.length > 0) {
-            this.error = err.error.errors.map((e: any) => e.msg || e.path + ' is invalid').join(', ');
+            this.error = err.error.errors.map((e: any) => `${e.path}: ${e.msg}`).join(', ');
           } else {
             this.error = err.error?.message || 'Registration failed';
           }
@@ -61,7 +61,7 @@ export class RegisterComponent {
         },
         error: (err) => {
           if (err.error?.errors && err.error.errors.length > 0) {
-            this.error = err.error.errors.map((e: any) => e.msg || e.path + ' is invalid').join(', ');
+            this.error = err.error.errors.map((e: any) => `${e.path}: ${e.msg}`).join(', ');
           } else {
             this.error = err.error?.message || 'Registration failed';
           }

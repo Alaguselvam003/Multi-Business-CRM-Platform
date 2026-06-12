@@ -49,7 +49,7 @@
       <input type="email" placeholder="Email Address" [(ngModel)]="email" name="email" 
         [ngClass]="['w-full px-4 py-2 border rounded-lg', darkMode ? 'bg-slate-700 border-slate-600 text-white' : 'bg-white border-slate-300']" required />
       
-      <input type="password" placeholder="Password" [(ngModel)]="password" name="password" 
+      <input type="password" placeholder="Password" [(ngModel)]="password" name="password" minlength="6"
         [ngClass]="['w-full px-4 py-2 border rounded-lg', darkMode ? 'bg-slate-700 border-slate-600 text-white' : 'bg-white border-slate-300']" required />
       
       <button type="submit" [disabled]="loading"

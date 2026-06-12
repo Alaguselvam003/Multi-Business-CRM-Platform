@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
@@ -12,6 +12,8 @@ import { LucideAngularModule, Plus } from 'lucide-angular';
   templateUrl: './support.component.html'
 })
 export class SupportComponent implements OnInit {
+  isLoading = false;
+  errorMessage = '';
   tickets: any[] = [];
   form: any = { title: '', description: '', priority: 'medium', status: 'open' };
   showForm = false;
@@ -19,16 +21,28 @@ export class SupportComponent implements OnInit {
 
   readonly Plus = Plus;
 
-  constructor(private apiService: ApiService, public themeService: ThemeService) {}
+  constructor(private apiService: ApiService, public themeService: ThemeService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.load();
   }
 
   load() {
-    this.apiService.getTickets().subscribe({
-      next: (r) => this.tickets = r.data || [],
-      error: () => {}
+    this.isLoading = true;
+    this.errorMessage = '';
+    this.cdr.detectChanges();
+
+    this.apiService.getTickets()?.subscribe({
+      next: (r) => {
+        this.tickets = r.data || [];
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.errorMessage = 'Failed to load data.';
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 

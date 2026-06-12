@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
@@ -12,6 +12,8 @@ import { LucideAngularModule, Plus, Trash2, Check } from 'lucide-angular';
   templateUrl: './tasks.component.html'
 })
 export class TasksComponent implements OnInit {
+  isLoading = false;
+  errorMessage = '';
   tasks: any[] = [];
   form: any = { title: '', description: '', priority: 'medium', status: 'open', due_date: '' };
   showForm = false;
@@ -20,16 +22,28 @@ export class TasksComponent implements OnInit {
   readonly Trash2 = Trash2;
   readonly Check = Check;
 
-  constructor(private apiService: ApiService, public themeService: ThemeService) {}
+  constructor(private apiService: ApiService, public themeService: ThemeService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.load();
   }
 
   load() {
-    this.apiService.getTasks().subscribe({
-      next: (r) => this.tasks = r.data || [],
-      error: () => {}
+    this.isLoading = true;
+    this.errorMessage = '';
+    this.cdr.detectChanges();
+
+    this.apiService.getTasks()?.subscribe({
+      next: (r) => {
+        this.tasks = r.data || [];
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.errorMessage = 'Failed to load data.';
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 

@@ -25,7 +25,23 @@
     </div>
   </form>
 
-  <div [ngClass]="['rounded-lg shadow overflow-hidden', (themeService.darkMode$ | async) ? 'bg-slate-800 text-white' : 'bg-white text-slate-800']">
+  
+  <!-- Loading Indicator -->
+  <div *ngIf="isLoading" class="p-8 text-center text-blue-500 font-medium">
+    Loading...
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage && !isLoading" class="p-8 text-center text-red-500">
+    {{ errorMessage }}
+  </div>
+
+  <!-- No Data Message -->
+  <div *ngIf="!isLoading && !errorMessage && employees.length === 0" class="p-8 text-center text-slate-500">
+    No data found.
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage && employees.length > 0" [ngClass]="['rounded-lg shadow overflow-hidden', (themeService.darkMode$ | async) ? 'bg-slate-800 text-white' : 'bg-white text-slate-800']">
     <table class="w-full text-sm">
       <thead [ngClass]="(themeService.darkMode$ | async) ? 'bg-slate-700' : 'bg-slate-50'">
         <tr>

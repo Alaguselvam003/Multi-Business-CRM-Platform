@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../services/api.service';
 import { ThemeService } from '../../services/theme.service';
@@ -20,19 +20,45 @@ const fallbackLeads = [
   templateUrl: './analytics.component.html'
 })
 export class AnalyticsComponent implements OnInit {
+  isLoading = false;
+  errorMessage = '';
   revenue = fallbackRevenue;
   leads = fallbackLeads;
 
-  constructor(private apiService: ApiService, public themeService: ThemeService) {}
+  constructor(private apiService: ApiService, public themeService: ThemeService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.apiService.getRevenueTrend().subscribe({
-      next: (r) => this.revenue = r.data || fallbackRevenue,
-      error: () => {}
+    this.isLoading = true;
+    this.errorMessage = '';
+    this.cdr.detectChanges();
+
+    let completed = 0;
+    const checkComplete = () => {
+      completed++;
+      if (completed === 2) {
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
+    };
+
+    this.apiService.getRevenueTrend()?.subscribe({
+      next: (r) => {
+        this.revenue = r.data || fallbackRevenue;
+        checkComplete();
+      },
+      error: () => {
+        checkComplete();
+      }
     });
-    this.apiService.getLeadConversion().subscribe({
-      next: (r) => this.leads = r.data || fallbackLeads,
-      error: () => {}
+
+    this.apiService.getLeadConversion()?.subscribe({
+      next: (r) => {
+        this.leads = r.data || fallbackLeads;
+        checkComplete();
+      },
+      error: () => {
+        checkComplete();
+      }
     });
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
@@ -12,6 +12,8 @@ import { LucideAngularModule, Plus } from 'lucide-angular';
   templateUrl: './invoices.component.html'
 })
 export class InvoicesComponent implements OnInit {
+  isLoading = false;
+  errorMessage = '';
   invoices: any[] = [];
   form: any = { invoice_number: '', amount: '', tax: '', status: 'draft', due_date: '' };
   showForm = false;
@@ -19,16 +21,28 @@ export class InvoicesComponent implements OnInit {
 
   readonly Plus = Plus;
 
-  constructor(private apiService: ApiService, public themeService: ThemeService) {}
+  constructor(private apiService: ApiService, public themeService: ThemeService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.load();
   }
 
   load() {
-    this.apiService.getInvoices().subscribe({
-      next: (r) => this.invoices = r.data || [],
-      error: () => {}
+    this.isLoading = true;
+    this.errorMessage = '';
+    this.cdr.detectChanges();
+
+    this.apiService.getInvoices()?.subscribe({
+      next: (r) => {
+        this.invoices = r.data || [];
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.errorMessage = 'Failed to load data.';
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 

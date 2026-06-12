@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
@@ -12,6 +12,8 @@ import { LucideAngularModule, Plus, Trash2, Pencil } from 'lucide-angular';
   templateUrl: './customers.component.html'
 })
 export class CustomersComponent implements OnInit {
+  isLoading = false;
+  errorMessage = '';
   customers: any[] = [];
   form: any = { name: '', email: '', phone: '', status: 'Active' };
   editing: string | null = null;
@@ -21,16 +23,28 @@ export class CustomersComponent implements OnInit {
   readonly Trash2 = Trash2;
   readonly Pencil = Pencil;
 
-  constructor(private apiService: ApiService, public themeService: ThemeService) {}
+  constructor(private apiService: ApiService, public themeService: ThemeService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.load();
   }
 
   load() {
-    this.apiService.getCustomers().subscribe({
-      next: (r) => this.customers = r.data || [],
-      error: () => {}
+    this.isLoading = true;
+    this.errorMessage = '';
+    this.cdr.detectChanges();
+
+    this.apiService.getCustomers()?.subscribe({
+      next: (r) => {
+        this.customers = r.data || [];
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.errorMessage = 'Failed to load data.';
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 
